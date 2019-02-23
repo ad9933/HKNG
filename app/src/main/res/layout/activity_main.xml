@@ -25,7 +25,7 @@
         android:layout_marginEnd="79dp"
         android:layout_marginBottom="150dp"
         android:onClick="onRefreshBtnClick"
-        android:text="Refresh"
+        android:text="Scroll Down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/clear_btn" />
