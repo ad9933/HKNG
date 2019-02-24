@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onRefreshBtnClick(View v) {
 
-        mRecyclerView.scrollToPosition(KtalkGrabber.ktNotification.size() - 1);
+        mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
 
     }
 
