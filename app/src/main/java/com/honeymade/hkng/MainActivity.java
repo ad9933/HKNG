@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected void onClearBtnClick(View v) {
+    public void onClearBtnClick(View v) {
         KtalkGrabber.ktNotification.clear();
         KtalkGrabber.senderVector.clear();
         KtalkGrabber.senderVector.add("All");
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("Clear!");
     }
 
-    protected void onRefreshBtnClick(View v) {
+    public void onRefreshBtnClick(View v) {
 
         mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
 
