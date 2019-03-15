@@ -15,6 +15,7 @@ import java.util.Vector;
 public class KtalkGrabber extends NotificationListenerService {
 
     static Vector<Notification> ktNotification = new Vector<Notification>();
+    static Vector<Notification> currentNotification = null;
 
     static Vector<String> senderVector = new Vector<String>();
     static HashSet<String> senderSet = new HashSet<String>();
@@ -95,6 +96,16 @@ public class KtalkGrabber extends NotificationListenerService {
         nMC.cancel(1);
     }
 
+    public static String getChatRoom(Notification n) {
+        return n.extras.getString(Notification.EXTRA_SUB_TEXT);
+    }
 
+    public static String getSender(Notification n) {
+        return n.extras.getString(Notification.EXTRA_TITLE);
+    }
+
+    public static String getMessage(Notification n) {
+        return n.extras.getString(Notification.EXTRA_TEXT);
+    }
 
 }

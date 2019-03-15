@@ -13,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import static com.honeymade.hkng.KtalkGrabber.getChatRoom;
+import static com.honeymade.hkng.KtalkGrabber.getMessage;
+import static com.honeymade.hkng.KtalkGrabber.getSender;
+import static com.honeymade.hkng.KtalkGrabber.selectedChatroom;
+
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 KtalkGrabber.selectedChatroom = KtalkGrabber.senderVector.get(position);
                 TextView tv = findViewById(R.id.current);
                 tv.setText(KtalkGrabber.selectedChatroom);
+
+
+
                 mRecyclerView.setAdapter(myAdapter);
             }
 
@@ -81,6 +89,31 @@ public class MainActivity extends AppCompatActivity {
     public void onRefreshBtnClick(View v) {
 
         mRecyclerView.scrollToPosition(myAdapter.getItemCount() - 1);
+
+    }
+
+    Vector<Notification> getCurrentList() {
+
+        Vector<Notification> result = new Vector<Notification>();
+
+        if(KtalkGrabber.selectedChatroom.equals("All"))
+            return KtalkGrabber.ktNotification;
+        else if (KtalkGrabber.selectedChatroom.contains("[개인]")) {
+            for (int i = 0; i < KtalkGrabber.ktNotification.size(); i++) {
+                if((getChatRoom(KtalkGrabber.ktNotification.get(i)) == null) &&
+                        getSender(KtalkGrabber.ktNotification.get(i)).equals(KtalkGrabber.selectedChatroom.substring(4))) {
+
+                    result.add(KtalkGrabber.ktNotification.get(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < KtalkGrabber.ktNotification.size(); i++) {
+                if(getChatRoom(KtalkGrabber.ktNotification.get(i)).equals(KtalkGrabber.selectedChatroom))
+                    result.add(KtalkGrabber.ktNotification.get(i));
+            }
+        }
+
+        return result;
 
     }
 

@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static com.honeymade.hkng.KtalkGrabber.getChatRoom;
+import static com.honeymade.hkng.KtalkGrabber.getMessage;
+import static com.honeymade.hkng.KtalkGrabber.getSender;
+
 import java.util.Vector;
 
 public class KNotificationAdapter extends RecyclerView.Adapter {
