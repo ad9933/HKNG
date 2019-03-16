@@ -16,7 +16,7 @@ import java.util.Vector;
 
 public class KNotificationAdapter extends RecyclerView.Adapter {
 
-    public Vector<Notification> ktNotification;
+    //public Vector<Notification> ktNotification;
 
     private int idx = 0;
 
@@ -24,7 +24,6 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
 
         TextView sender;
         TextView chatRoomName;
-
         TextView message;
 
         MyViewHolder(View v) {
@@ -38,7 +37,7 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
     }
 
     public KNotificationAdapter() {
-        ktNotification = KtalkGrabber.ktNotification;
+        //ktNotification = KtalkGrabber.ktNotification;
     }
 
     @Override
@@ -53,6 +52,11 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         MyViewHolder mvh = (MyViewHolder)viewHolder;
 
+        mvh.sender.setText(getSender(KtalkGrabber.currentNotification.get(position)));
+        mvh.chatRoomName.setText(getChatRoom(KtalkGrabber.currentNotification.get(position)));
+        mvh.message.setText(getMessage(KtalkGrabber.currentNotification.get(position)));
+
+        /*
         if(KtalkGrabber.selectedChatroom.equals("All")) {
 
             mvh.sender.setText(ktNotification.get(position).extras.getString(Notification.EXTRA_TITLE));
@@ -103,6 +107,7 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
             mvh.message.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TEXT));
 
         }
+        */
 
     }
 
@@ -118,6 +123,8 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
 
     public int getItemCount() {
 
+        return KtalkGrabber.currentNotification.size();
+        /*
         int count = 0;
 
         if (KtalkGrabber.selectedChatroom.equals("All"))
@@ -142,5 +149,9 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
             return count;
 
         }
+
     }
+    */
+    }
+
 }

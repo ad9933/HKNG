@@ -15,7 +15,7 @@ import java.util.Vector;
 public class KtalkGrabber extends NotificationListenerService {
 
     static Vector<Notification> ktNotification = new Vector<Notification>();
-    static Vector<Notification> currentNotification = null;
+    static Vector<Notification> currentNotification = ktNotification;
 
     static Vector<String> senderVector = new Vector<String>();
     static HashSet<String> senderSet = new HashSet<String>();
@@ -68,7 +68,7 @@ public class KtalkGrabber extends NotificationListenerService {
 
             } else {                                                        //갠톡일때
 
-                if(senderSet.add(nExtras.getString(Notification.EXTRA_TITLE))) {
+                if(senderSet.add("[개인]" + nExtras.getString(Notification.EXTRA_TITLE))) {
                     senderVector.add("[개인]" + nExtras.getString(Notification.EXTRA_TITLE));
                 }
 

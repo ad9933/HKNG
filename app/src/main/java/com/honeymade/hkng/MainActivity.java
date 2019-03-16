@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView tv = findViewById(R.id.current);
                 tv.setText(KtalkGrabber.selectedChatroom);
 
-
+                KtalkGrabber.currentNotification = getCurrentList();
 
                 mRecyclerView.setAdapter(myAdapter);
             }
@@ -108,13 +108,23 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             for (int i = 0; i < KtalkGrabber.ktNotification.size(); i++) {
-                if(getChatRoom(KtalkGrabber.ktNotification.get(i)).equals(KtalkGrabber.selectedChatroom))
+                if(checkEqual(getChatRoom(KtalkGrabber.ktNotification.get(i)), KtalkGrabber.selectedChatroom))
                     result.add(KtalkGrabber.ktNotification.get(i));
             }
         }
 
         return result;
 
+    }
+
+    private boolean checkEqual(String a, String b) {
+        if (a == null || b == null)
+            return false;
+        else
+        if(a.equals(b))
+            return true;
+        else
+            return false;
     }
 
 }
