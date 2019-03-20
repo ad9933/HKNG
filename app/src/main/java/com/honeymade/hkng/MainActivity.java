@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         KtalkGrabber.senderVector.add("All");
         KtalkGrabber.senderSet.clear();
 
+        KtalkGrabber.currentNotification = KtalkGrabber.ktNotification;
+
         mRecyclerView.setAdapter(myAdapter);
         System.out.println("Clear!");
     }
