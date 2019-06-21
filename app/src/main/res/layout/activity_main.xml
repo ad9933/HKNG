@@ -64,10 +64,44 @@
         android:layout_marginTop="19dp"
         android:layout_marginEnd="176dp"
         android:layout_marginBottom="43dp"
-        android:text="TextView"
+        android:text="Current"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <ToggleButton
+        android:id="@+id/toggle_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="57dp"
+        android:layout_marginBottom="11dp"
+        android:checked="true"
+        android:text="AutoRefresh"
+        android:textOff="OFF"
+        android:textOn="ON"
+        app:layout_constraintBottom_toTopOf="@+id/clear_btn"
+        app:layout_constraintEnd_toStartOf="@+id/real_refresh_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rcyclr"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/real_refresh_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="63dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="13dp"
+        android:onClick="onRealRefreshBtnClick"
+        android:text="REFRESH"
+        app:layout_constraintBottom_toTopOf="@+id/refresh_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/toggle_refresh"
+        app:layout_constraintTop_toBottomOf="@+id/rcyclr"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

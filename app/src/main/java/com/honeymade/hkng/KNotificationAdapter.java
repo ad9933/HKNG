@@ -3,9 +3,12 @@ package com.honeymade.hkng;
 import android.app.Notification;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import static com.honeymade.hkng.KtalkGrabber.getChatRoom;
@@ -20,11 +23,20 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
 
     private int idx = 0;
 
+    static MainActivity mainActivity;
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView sender;
         TextView chatRoomName;
         TextView message;
+        Button moreBtn;
+        View popup;
+
+        TextView popupText;
+        Button closeBtn;
+
+        PopupWindow pWindow;
 
         MyViewHolder(View v) {
             super(v);
@@ -32,11 +44,41 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
             this.sender = v.findViewById(R.id.sender);
             this.chatRoomName = v.findViewById(R.id.chatroom);
             this.message = v.findViewById(R.id.messages);
+            this.moreBtn = v.findViewById(R.id.show_more_btn);
+
+            popup = MainActivity.inflater.inflate(R.layout.popup_window, (ViewGroup)mainActivity.findViewById(R.id.popup_thing));
+
+            this.popupText = popup.findViewById(R.id.popup_text);
+            this.closeBtn = popup.findViewById(R.id.close_btn);
+
+            moreBtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+
+                    pWindow = new PopupWindow(popup, 800, 900, true);
+                    pWindow.showAtLocation(popup, Gravity.CENTER, 0, 0);
+
+                    popupText.setText(message.getText());
+
+                    closeBtn.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            pWindow.dismiss();
+                        }
+                    });
+
+                }
+
+            });
 
         }
     }
 
-    public KNotificationAdapter() {
+    public KNotificationAdapter(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
         //ktNotification = KtalkGrabber.ktNotification;
     }
 
@@ -56,59 +98,6 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
         mvh.chatRoomName.setText(getChatRoom(KtalkGrabber.currentNotification.get(position)));
         mvh.message.setText(getMessage(KtalkGrabber.currentNotification.get(position)));
 
-        /*
-        if(KtalkGrabber.selectedChatroom.equals("All")) {
-
-            mvh.sender.setText(ktNotification.get(position).extras.getString(Notification.EXTRA_TITLE));
-            mvh.chatRoomName.setText(ktNotification.get(position).extras.getString(Notification.EXTRA_SUB_TEXT));
-            mvh.message.setText(ktNotification.get(position).extras.getString(Notification.EXTRA_TEXT));
-
-        } else if (KtalkGrabber.selectedChatroom.contains("[개인]")) {
-
-            if (position == 0)
-                idx = 0;
-
-            System.out.println(KtalkGrabber.selectedChatroom + " " + idx);
-            System.out.println(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_SUB_TEXT));
-            System.out.println(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TITLE));
-            System.out.println(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TEXT));
-
-            while ((!ktNotification.get(position + idx).extras.getString(Notification.EXTRA_TITLE).equals(
-                    KtalkGrabber.selectedChatroom.substring(4)) || ktNotification.get(position + idx).extras.getString(Notification.EXTRA_SUB_TEXT) != null
-            )) {
-                idx++;
-            }
-
-            System.out.println("AFT" + KtalkGrabber.selectedChatroom + " " + idx);
-            System.out.println("AFT" + ktNotification.get(position+idx).extras.getString(Notification.EXTRA_SUB_TEXT));
-            System.out.println("AFT" + ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TITLE));
-            System.out.println("AFT" + ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TEXT));
-
-            mvh.sender.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TITLE));
-            mvh.chatRoomName.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_SUB_TEXT));
-            mvh.message.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TEXT));
-
-        } else {
-
-            if (position == 0)
-                idx = 0;
-
-            System.out.println(KtalkGrabber.selectedChatroom + " " + idx);
-            System.out.println(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_SUB_TEXT));
-            System.out.println(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TITLE));
-            System.out.println(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TEXT));
-
-
-            while (!checkEqual(ktNotification.get(position + idx).extras.getString(Notification.EXTRA_SUB_TEXT), KtalkGrabber.selectedChatroom))
-                idx++;
-
-            mvh.sender.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TITLE));
-            mvh.chatRoomName.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_SUB_TEXT));
-            mvh.message.setText(ktNotification.get(position+idx).extras.getString(Notification.EXTRA_TEXT));
-
-        }
-        */
-
     }
 
     private boolean checkEqual(String a, String b) {
@@ -124,34 +113,6 @@ public class KNotificationAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
 
         return KtalkGrabber.currentNotification.size();
-        /*
-        int count = 0;
-
-        if (KtalkGrabber.selectedChatroom.equals("All"))
-            return ktNotification.size();
-
-        else if (KtalkGrabber.selectedChatroom.contains("[개인]")) {
-
-            for (int i = 0; i < ktNotification.size(); i++) {
-                if (KtalkGrabber.selectedChatroom.substring(4).equals(ktNotification.get(i).extras.getString(Notification.EXTRA_TITLE)) && ktNotification.get(i).extras.getString(Notification.EXTRA_SUB_TEXT) == null)
-                    count++;
-            }
-
-            return count;
-
-        } else {
-
-            for (int i = 0; i < ktNotification.size(); i++) {
-                if (checkEqual(KtalkGrabber.selectedChatroom, ktNotification.get(i).extras.getString(Notification.EXTRA_SUB_TEXT)))
-                    count++;
-            }
-
-            return count;
-
-        }
-
-    }
-    */
     }
 
 }

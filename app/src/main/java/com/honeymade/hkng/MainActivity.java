@@ -1,17 +1,21 @@
 package com.honeymade.hkng;
 
 import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.service.notification.StatusBarNotification;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import static com.honeymade.hkng.KtalkGrabber.getChatRoom;
 import static com.honeymade.hkng.KtalkGrabber.getMessage;
@@ -22,6 +26,8 @@ import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static boolean autoRefresh = true;
+
     static RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     static KNotificationAdapter myAdapter;
@@ -29,9 +35,13 @@ public class MainActivity extends AppCompatActivity {
     static Spinner spinner;
     static ArrayAdapter<String> spinneradapter;
 
+    public static LayoutInflater inflater = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         setContentView(R.layout.activity_main);
 
@@ -40,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
         Intent svcIntent = new Intent(this, KtalkGrabber.class);
         startService(svcIntent);
         System.out.println("Service started");
+
+        ToggleButton toggleRefreshBtn = findViewById(R.id.toggle_refresh);
+        toggleRefreshBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) { autoRefresh = true; }
+                else {autoRefresh = false; }
+            }
+        });
 
         mRecyclerView = findViewById(R.id.rcyclr);
         mRecyclerView.setHasFixedSize(true);
@@ -50,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        myAdapter = new KNotificationAdapter();
+        myAdapter = new KNotificationAdapter(this);
         spinneradapter = new ArrayAdapter<String>(this, R.layout.spinnerlayout, R.id.chatroomspinner, KtalkGrabber.senderVector);
 
         mRecyclerView.setAdapter(myAdapter);
@@ -74,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onRealRefreshBtnClick(View v) {
+        mRecyclerView.setAdapter(myAdapter);
     }
 
     public void onClearBtnClick(View v) {
