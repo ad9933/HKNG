@@ -79,7 +79,11 @@ public class KtalkGrabber extends NotificationListenerService {
             //if(MainActivity.autoRefresh)
             //    MainActivity.mRecyclerView.setAdapter(MainActivity.myAdapter);
 
-            MainActivity.spinner.setAdapter(MainActivity.spinneradapter);
+            if(MainActivity.spinner != null) {
+                MainActivity.spinner.setAdapter(MainActivity.spinneradapter);
+                MainActivity.wasSpinnerNull = false;
+            } else
+                MainActivity.wasSpinnerNull = true;
 
         }
 

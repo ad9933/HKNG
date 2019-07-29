@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -27,13 +28,14 @@ import java.util.Vector;
 public class MainActivity extends AppCompatActivity {
 
     public static boolean autoRefresh = true;
+    public static boolean wasSpinnerNull = false;
 
     static RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     static KNotificationAdapter myAdapter;
 
     static Spinner spinner;
-    static ArrayAdapter<String> spinneradapter;
+    public static ArrayAdapter<String> spinneradapter;
 
     public static LayoutInflater inflater = null;
 
